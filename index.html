@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Do You Love Me? 💖</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Dancing+Script:wght@700&family=Fredoka:wght@600&family=Montserrat:wght@800&family=Pacifico&family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Reset & Core Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            height: 100%;
+            min-height: 100dvh;               /* dynamic viewport height for mobile browsers */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-color: #ff9a9e;
+            font-family: 'Inter', sans-serif;
+            perspective: 1000px;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+
+        /* Background Layers for Smooth Crossfade transitions */
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -2;
+        }
+        .bg-layer.active {
+            opacity: 1;
+        }
+
+        /* Curated Harmonious Gradients for Each Page */
+        #bg-1 { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        #bg-2 { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); }
+        #bg-3 { background: linear-gradient(135deg, #faddb2 0%, #ffabab 100%); }
+        #bg-4 { background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%); }
+        #bg-5 { background: linear-gradient(135deg, #ff0844 0%, #9b000e 100%); }
+        #bg-6 { background: linear-gradient(135deg, #f77062 0%, #fe5196 100%); }
+
+        /* Floating Hearts Background Layer */
+        .heart-particle {
+            position: fixed;
+            bottom: -50px;
+            pointer-events: none;
+            z-index: -1;
+            animation: floatUp 6s ease-in forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.7;
+            }
+            85% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-110vh) translateX(var(--drift)) rotate(var(--rotation)) scale(var(--scale));
+                opacity: 0;
+            }
+        }
+
+        /* Glassmorphic card design container */
+        .card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 30px;
+            padding: 50px 35px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-style: preserve-3d;
+        }
+
+        /* Subtle premium hovering card action — desktop only */
+        @media (hover: hover) {
+            .card:hover {
+                transform: translateY(-5px) rotateX(2deg) rotateY(2deg);
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2),
+                            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            }
+        }
+
+        .card.fade-out {
+            opacity: 0;
+            transform: scale(0.9) translateY(20px);
+        }
+
+        /* Floating, bouncing romantic sticker */
+        .sticker-container {
+            font-size: 5.5rem;
+            margin-bottom: 25px;
+            animation: floatSticker 3s ease-in-out infinite;
+            display: inline-block;
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15));
+            user-select: none;
+        }
+
+        @keyframes floatSticker {
+            0%, 100% {
+                transform: translateY(0) scale(1) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) scale(1.08) rotate(4deg);
+            }
+        }
+
+        /* Question Typography & Layouts */
+        .question-container {
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .question-text {
+            line-height: 1.4;
+            transition: all 0.3s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* Page specific fonts & styles */
+        .font-q1 {
+            font-family: 'Fredoka', sans-serif;
+            color: #d63031;
+            font-size: 2.3rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .font-q2 {
+            font-family: 'Montserrat', sans-serif;
+            color: #2c3e50;
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .font-q3 {
+            font-family: 'Caveat', cursive;
+            color: #2d3436;
+            font-size: 2.8rem;
+            font-weight: 700;
+        }
+
+        .font-q4 {
+            font-family: 'Dancing Script', cursive;
+            color: #ffffff;
+            font-size: 2.4rem;
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Final Question layout */
+        .final-question {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .love-line-1 {
+            font-family: 'Pacifico', cursive;
+            color: #fff;
+            font-size: 2.2rem;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.25);
+            animation: pulseText 1.5s infinite ease-in-out;
+        }
+
+        .love-line-2 {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: #ffe3e3;
+            font-size: 2.4rem;
+            font-weight: 700;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.25);
+        }
+
+        @keyframes pulseText {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* 3D Interactive Buttons */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            position: relative;
+            min-height: 60px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 36px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            user-select: none;
+            outline: none;
+            -webkit-touch-callout: none;
+            touch-action: manipulation;
+        }
+
+        /* Page 1 Button Styles (3D Effect) */
+        .btn-yes-1 {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+            box-shadow: 0 6px 0 #b33951, 0 10px 20px rgba(232, 67, 147, 0.3);
+        }
+        .btn-yes-1:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #b33951, 0 14px 24px rgba(232, 67, 147, 0.4);
+        }
+        .btn-yes-1:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #b33951, 0 4px 8px rgba(232, 67, 147, 0.4);
+        }
+
+        .btn-no-1 {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            color: #636e72;
+            box-shadow: 0 6px 0 #c29538, 0 10px 20px rgba(253, 203, 110, 0.3);
+        }
+        .btn-no-1:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #c29538, 0 14px 24px rgba(253, 203, 110, 0.4);
+        }
+        .btn-no-1:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #c29538, 0 4px 8px rgba(253, 203, 110, 0.4);
+        }
+
+        /* Page 2 Button Styles */
+        .btn-yes-2 {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            box-shadow: 0 6px 0 #4834d4, 0 10px 20px rgba(108, 92, 231, 0.3);
+        }
+        .btn-yes-2:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #4834d4, 0 14px 24px rgba(108, 92, 231, 0.4);
+        }
+        .btn-yes-2:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #4834d4, 0 4px 8px rgba(108, 92, 231, 0.4);
+        }
+
+        .btn-no-2 {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            box-shadow: 0 6px 0 #b3391b, 0 10px 20px rgba(225, 112, 85, 0.3);
+        }
+        .btn-no-2:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #b3391b, 0 14px 24px rgba(225, 112, 85, 0.4);
+        }
+        .btn-no-2:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #b3391b, 0 4px 8px rgba(225, 112, 85, 0.4);
+        }
+
+        /* Page 3 Button Styles */
+        .btn-yes-3 {
+            background: linear-gradient(135deg, #ff7675, #d63031);
+            color: white;
+            box-shadow: 0 6px 0 #9b1c1c, 0 10px 20px rgba(214, 48, 49, 0.3);
+        }
+        .btn-yes-3:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #9b1c1c, 0 14px 24px rgba(214, 48, 49, 0.4);
+        }
+        .btn-yes-3:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #9b1c1c, 0 4px 8px rgba(214, 48, 49, 0.4);
+        }
+
+        .btn-no-3 {
+            background: linear-gradient(135deg, #81ecec, #00cec9);
+            color: white;
+            box-shadow: 0 6px 0 #00938f, 0 10px 20px rgba(0, 206, 201, 0.3);
+        }
+        .btn-no-3:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #00938f, 0 14px 24px rgba(0, 206, 201, 0.4);
+        }
+        .btn-no-3:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #00938f, 0 4px 8px rgba(0, 206, 201, 0.4);
+        }
+
+        /* Page 4 Button Styles */
+        .btn-yes-4 {
+            background: linear-gradient(135deg, #00b894, #55efc4);
+            color: white;
+            box-shadow: 0 6px 0 #00876c, 0 10px 20px rgba(0, 184, 148, 0.3);
+        }
+        .btn-yes-4:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #00876c, 0 14px 24px rgba(0, 184, 148, 0.4);
+        }
+        .btn-yes-4:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #00876c, 0 4px 8px rgba(0, 184, 148, 0.4);
+        }
+
+        .btn-no-4 {
+            background: linear-gradient(135deg, #0984e3, #74b9ff);
+            color: white;
+            box-shadow: 0 6px 0 #06528e, 0 10px 20px rgba(9, 132, 227, 0.3);
+        }
+        .btn-no-4:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #06528e, 0 14px 24px rgba(9, 132, 227, 0.4);
+        }
+        .btn-no-4:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #06528e, 0 4px 8px rgba(9, 132, 227, 0.4);
+        }
+
+        /* Page 5 Button Styles (The Dodging Page) */
+        .btn-yes-5 {
+            background: linear-gradient(135deg, #ffe259, #ffa751);
+            color: #4a3000;
+            box-shadow: 0 6px 0 #cc8500, 0 10px 20px rgba(255, 167, 81, 0.4);
+        }
+        .btn-yes-5:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 0 #cc8500, 0 14px 24px rgba(255, 167, 81, 0.5);
+        }
+        .btn-yes-5:active {
+            transform: translateY(4px) scale(0.98);
+            box-shadow: 0 2px 0 #cc8500, 0 4px 8px rgba(255, 167, 81, 0.5);
+        }
+
+        .btn-no-5 {
+            background: linear-gradient(135deg, #757f9a, #d7dde8);
+            color: #2c3e50;
+            box-shadow: 0 6px 0 #4e576b, 0 10px 20px rgba(117, 127, 154, 0.3);
+            transition: all 0.15s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        /* Congratulations Layout */
+        .congrats-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .congrats-line-1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.1rem;
+            color: #fff;
+            text-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+            line-height: 1.3;
+        }
+
+        .congrats-line-2 {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.2rem;
+            color: #ffe3e3;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+            margin-bottom: 10px;
+            animation: pulseText 2s infinite ease-in-out;
+        }
+
+        /* Highlighted Link Button Styled Like YES Button */
+        .see-bf-btn {
+            background: linear-gradient(135deg, #00f2fe, #4facfe);
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 6px 0 #0076a8, 0 10px 25px rgba(79, 172, 254, 0.5);
+            display: inline-block;
+            margin-top: 10px;
+            animation: pulseShadow 2s infinite;
+        }
+
+        .see-bf-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 0 #0076a8, 0 14px 30px rgba(79, 172, 254, 0.6);
+        }
+
+        .see-bf-btn:active {
+            transform: translateY(4px) scale(0.98);
+            box-shadow: 0 2px 0 #0076a8, 0 4px 10px rgba(79, 172, 254, 0.6);
+        }
+
+        @keyframes pulseShadow {
+            0%, 100% {
+                box-shadow: 0 6px 0 #0076a8, 0 10px 25px rgba(79, 172, 254, 0.5);
+            }
+            50% {
+                box-shadow: 0 6px 0 #0076a8, 0 10px 35px rgba(79, 172, 254, 0.8);
+            }
+        }
+
+        /* Micro-Animations & Particle Effects */
+        .heart-burst-particle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 24px;
+            z-index: 999;
+            transform: translate(-50%, -50%);
+            animation: burst 0.9s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        }
+
+        @keyframes burst {
+            0% {
+                transform: translate(-50%, -50%) translate(0, 0) scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) translate(var(--tx), var(--ty)) scale(1.4) rotate(var(--rot));
+                opacity: 0;
+            }
+        }
+
+        .confetti-particle {
+            position: fixed;
+            pointer-events: none;
+            width: 10px;
+            height: 10px;
+            z-index: 998;
+            animation: confettiFall 4s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-50px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(105vh) translateX(var(--drift)) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Navigation Dots */
+        .dots-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: #fff;
+            transform: scale(1.3);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        /* ===========================
+           RESPONSIVE BREAKPOINTS
+           =========================== */
+
+        /* Tablets & Small Laptops */
+        @media (max-width: 768px) {
+            .card {
+                padding: 45px 28px;
+                border-radius: 24px;
+            }
+            .sticker-container { font-size: 5rem; }
+            .font-q1 { font-size: 2rem; }
+            .font-q2 { font-size: 1.9rem; }
+            .font-q3 { font-size: 2.4rem; }
+            .font-q4 { font-size: 2.1rem; }
+            .love-line-1 { font-size: 1.9rem; }
+            .love-line-2 { font-size: 2.1rem; }
+            .congrats-line-1 { font-size: 1.85rem; }
+            .congrats-line-2 { font-size: 1.9rem; }
+        }
+
+        /* Phones */
+        @media (max-width: 480px) {
+            .card {
+                padding: 35px 18px;
+                border-radius: 22px;
+                width: 92%;
+            }
+            .sticker-container {
+                font-size: 4rem;
+                margin-bottom: 18px;
+            }
+            .question-container {
+                min-height: 80px;
+                margin-bottom: 25px;
+            }
+            .font-q1 { font-size: 1.65rem; }
+            .font-q2 { font-size: 1.55rem; }
+            .font-q3 { font-size: 1.9rem; }
+            .font-q4 { font-size: 1.7rem; }
+            .love-line-1 { font-size: 1.55rem; }
+            .love-line-2 { font-size: 1.7rem; }
+            .congrats-line-1 { font-size: 1.45rem; }
+            .congrats-line-2 { font-size: 1.55rem; }
+            .btn {
+                padding: 13px 26px;
+                font-size: 0.9rem;
+            }
+            .btn-group {
+                gap: 16px;
+            }
+            .dots-container {
+                margin-top: 18px;
+            }
+        }
+
+        /* Very small phones (iPhone SE, etc.) */
+        @media (max-width: 360px) {
+            .card {
+                padding: 28px 14px;
+                border-radius: 18px;
+                width: 95%;
+            }
+            .sticker-container {
+                font-size: 3.2rem;
+                margin-bottom: 14px;
+            }
+            .question-container {
+                min-height: 65px;
+                margin-bottom: 20px;
+            }
+            .font-q1 { font-size: 1.4rem; }
+            .font-q2 { font-size: 1.3rem; }
+            .font-q3 { font-size: 1.6rem; }
+            .font-q4 { font-size: 1.45rem; }
+            .love-line-1 { font-size: 1.3rem; }
+            .love-line-2 { font-size: 1.4rem; }
+            .congrats-line-1 { font-size: 1.2rem; }
+            .congrats-line-2 { font-size: 1.3rem; }
+            .btn {
+                padding: 11px 22px;
+                font-size: 0.82rem;
+            }
+            .btn-group { gap: 12px; }
+        }
+
+        /* Short landscape phones */
+        @media (max-height: 500px) {
+            .card {
+                padding: 20px 18px;
+            }
+            .sticker-container {
+                font-size: 3rem;
+                margin-bottom: 10px;
+            }
+            .question-container {
+                min-height: 50px;
+                margin-bottom: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Dynamic Background Crossfade Layers -->
+    <div class="bg-layer active" id="bg-1"></div>
+    <div class="bg-layer" id="bg-2"></div>
+    <div class="bg-layer" id="bg-3"></div>
+    <div class="bg-layer" id="bg-4"></div>
+    <div class="bg-layer" id="bg-5"></div>
+    <div class="bg-layer" id="bg-6"></div>
+
+    <!-- Main Card Container -->
+    <div class="card" id="card">
+        <div class="sticker-container" id="sticker">😁</div>
+        <div class="question-container" id="question-container">
+            <!-- Dynamic content injected here -->
+        </div>
+        <div class="btn-group" id="btn-group">
+            <button class="btn" id="yes-btn">Yes</button>
+            <button class="btn" id="no-btn">No</button>
+        </div>
+        <div class="dots-container" id="dots-container">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <script>
+        // Pages Configuration Data
+        const pages = [
+            {
+                questionHtml: `<h1 class="question-text font-q1">DO you love me? 😁</h1>`,
+                sticker: "😁",
+                yesClass: "btn-yes-1",
+                noClass: "btn-no-1"
+            },
+            {
+                questionHtml: `<h1 class="question-text font-q2">Soch le ache se! 😏</h1>`,
+                sticker: "😏",
+                yesClass: "btn-yes-2",
+                noClass: "btn-no-2"
+            },
+            {
+                questionHtml: `<h1 class="question-text font-q3">Maan ja na! Kitna bhaav khaaye gi ! 😅</h1>`,
+                sticker: "😅",
+                yesClass: "btn-yes-3",
+                noClass: "btn-no-3"
+            },
+            {
+                questionHtml: `<h1 class="question-text font-q4">Aur kitna code .... likhwaaye gi ! 😭</h1>`,
+                sticker: "😭",
+                yesClass: "btn-yes-4",
+                noClass: "btn-no-4"
+            },
+            {
+                questionHtml: `
+                    <div class="final-question">
+                        <h2 class="love-line-1">I love you, Nitin 💝</h2>
+                        <h1 class="love-line-2">Will you be my Girlfriend?</h1>
+                    </div>
+                `,
+                sticker: "💝",
+                yesClass: "btn-yes-5",
+                noClass: "btn-no-5"
+            }
+        ];
+
+        let currentPage = 0;
+        let noBtnDodging = false; // tracks whether noBtn is reparented to body
+        const card = document.getElementById('card');
+        const stickerEl = document.getElementById('sticker');
+        const questionContainer = document.getElementById('question-container');
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+        const btnGroup = document.getElementById('btn-group');
+        const dotsContainer = document.getElementById('dots-container');
+        const dots = document.querySelectorAll('.dot');
+
+        // Load targeted question config
+        loadPage(0);
+
+        function loadPage(index) {
+            currentPage = index;
+
+            // Background crossfade transitions
+            document.querySelectorAll('.bg-layer').forEach(layer => layer.classList.remove('active'));
+            const bgId = `bg-${index + 1}`;
+            const targetBg = document.getElementById(bgId);
+            if (targetBg) {
+                targetBg.classList.add('active');
+            }
+
+            // Return noBtn to card if it was reparented to body during dodge
+            if (noBtnDodging) {
+                noBtn.style.position = '';
+                noBtn.style.left = '';
+                noBtn.style.top = '';
+                noBtn.style.transform = '';
+                noBtn.style.zIndex = '';
+                btnGroup.appendChild(noBtn);
+                noBtnDodging = false;
+            }
+
+            // Update content & layout
+            stickerEl.textContent = pages[index].sticker;
+            questionContainer.innerHTML = pages[index].questionHtml;
+
+            // Apply interactive dynamic 3D classes
+            yesBtn.className = `btn ${pages[index].yesClass}`;
+            noBtn.className = `btn ${pages[index].noClass}`;
+
+            yesBtn.textContent = "Yes";
+            noBtn.textContent = "No";
+            noBtn.style.display = "inline-block";
+
+            // Update footer progress dot indicators
+            dots.forEach((dot, idx) => {
+                if (idx === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+            dotsContainer.style.display = 'flex';
+        }
+
+        // Action when user clicks "No" (Questions 1 - 4)
+        function nextQuestion() {
+            if (currentPage < pages.length - 1) {
+                card.classList.add('fade-out');
+                setTimeout(() => {
+                    loadPage(currentPage + 1);
+                    card.classList.remove('fade-out');
+                }, 300);
+            }
+        }
+
+        // Celebration screen (Yes selected at any phase)
+        function showCongrats(clickX, clickY) {
+            card.classList.add('fade-out');
+
+            // If noBtn is floating on body (dodge mode), hide it
+            if (noBtnDodging) {
+                noBtn.style.display = 'none';
+                noBtn.style.position = '';
+                noBtn.style.left = '';
+                noBtn.style.top = '';
+                noBtn.style.transform = '';
+                noBtn.style.zIndex = '';
+                noBtnDodging = false;
+            }
+
+            // Apply celebration gradient theme
+            document.querySelectorAll('.bg-layer').forEach(layer => layer.classList.remove('active'));
+            document.getElementById('bg-6').classList.add('active');
+
+            setTimeout(() => {
+                stickerEl.textContent = "🥳";
+                questionContainer.innerHTML = `
+                    <div class="congrats-container">
+                        <h1 class="congrats-line-1">Congratulations 🥳, Now you are my Girlfriend</h1>
+                        <p class="congrats-line-2">Forever and always</p>
+                    </div>
+                `;
+
+                // Set button group to display highlighted 'see your boyfriend' link
+                btnGroup.innerHTML = `
+                    <a href="https://www.instagram.com/nitin.prajapati_03?igsh=MWw1bXQ1amQ0d2N0Yg%3D%3D"
+                       target="_blank"
+                       class="btn see-bf-btn"
+                       id="bf-link">
+                       see your boyfriend
+                    </a>
+                `;
+
+                // Fire colorful confetti explosion & romantic particle streams
+                startConfetti();
+
+                // Hide page dots
+                dotsContainer.style.display = 'none';
+
+                card.classList.remove('fade-out');
+
+                // Bind custom heart burst effect to boyfriend link
+                const linkBtn = document.getElementById('bf-link');
+                linkBtn.addEventListener('click', (e) => {
+                    createHeartBurst(e.clientX, e.clientY);
+                });
+            }, 300);
+        }
+
+        // Dodge button mechanism — moves noBtn to document.body so
+        // position:fixed works relative to the viewport (not the card
+        // which has backdrop-filter and creates a new containing block).
+        function dodgeNoButton(e) {
+            if (currentPage !== 4) return;
+
+            // Block default touch behavior on mobile
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            // Move noBtn out of the card and onto the body the first time
+            if (!noBtnDodging) {
+                document.body.appendChild(noBtn);
+                noBtnDodging = true;
+            }
+
+            const padding = 20;
+            const btnWidth = noBtn.offsetWidth || 90;
+            const btnHeight = noBtn.offsetHeight || 45;
+
+            // Use visualViewport for better mobile accuracy, fallback to window
+            const vw = (window.visualViewport ? window.visualViewport.width : window.innerWidth);
+            const vh = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
+
+            // Generate coordinates within screen boundaries
+            let newX = Math.random() * (vw - btnWidth - padding * 2) + padding;
+            let newY = Math.random() * (vh - btnHeight - padding * 2) + padding;
+
+            // Offset if coordinates land too close to cursor / finger
+            const eventX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : null);
+            const eventY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : null);
+
+            if (eventX && eventY) {
+                const dist = Math.hypot(newX - eventX, newY - eventY);
+                if (dist < 120) {
+                    newX = (newX + 200) % (vw - btnWidth - padding * 2) + padding;
+                    newY = (newY + 200) % (vh - btnHeight - padding * 2) + padding;
+                }
+            }
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${newX}px`;
+            noBtn.style.top = `${newY}px`;
+            noBtn.style.zIndex = '9999';
+            noBtn.style.display = 'inline-block';
+
+            // Micro-sizing scaling impact
+            noBtn.style.transform = 'scale(0.85)';
+            setTimeout(() => {
+                noBtn.style.transform = 'scale(1)';
+            }, 100);
+
+            // Pop emoji reaction from interaction point
+            if (eventX && eventY) {
+                createDodgeEmoji(eventX, eventY);
+            }
+        }
+
+        // Spawns cheeky emojis at cursor / tap locations
+        function createDodgeEmoji(x, y) {
+            const p = document.createElement('div');
+            p.style.position = 'fixed';
+            p.style.left = `${x}px`;
+            p.style.top = `${y}px`;
+            p.style.pointerEvents = 'none';
+            p.style.fontSize = '24px';
+            p.style.zIndex = '999';
+            p.style.transform = 'translate(-50%, -50%)';
+            p.innerHTML = ['😝', '😜', '🤷‍♀️', '❌', '🏃‍♀️'][Math.floor(Math.random() * 5)];
+            p.style.transition = 'all 0.8s ease-out';
+            document.body.appendChild(p);
+
+            requestAnimationFrame(() => {
+                p.style.transform = 'translate(-50%, -100px) scale(1.5)';
+                p.style.opacity = '0';
+            });
+
+            setTimeout(() => p.remove(), 800);
+        }
+
+        // Global Event Listeners
+        yesBtn.addEventListener('click', (e) => {
+            createHeartBurst(e.clientX, e.clientY);
+            showCongrats(e.clientX, e.clientY);
+        });
+
+        noBtn.addEventListener('click', (e) => {
+            if (currentPage === 4) {
+                dodgeNoButton(e);
+            } else {
+                createHeartBurst(e.clientX, e.clientY);
+                nextQuestion();
+            }
+        });
+
+        // Trigger dodging on mouse enter (desktop) / touch start (mobile)
+        noBtn.addEventListener('mouseenter', (e) => {
+            if (currentPage === 4) dodgeNoButton(e);
+        });
+        noBtn.addEventListener('touchstart', (e) => {
+            if (currentPage === 4) dodgeNoButton(e);
+        }, { passive: false });
+
+        // Floating Hearts Background Engine
+        function spawnBackgroundHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-particle');
+            heart.innerHTML = ['❤️', '💖', '💝', '💕', '💘', '💗'][Math.floor(Math.random() * 6)];
+            heart.style.left = Math.random() * 100 + 'vw';
+
+            const scale = Math.random() * 0.7 + 0.5;
+            const drift = (Math.random() - 0.5) * 200 + 'px';
+            const rotation = (Math.random() - 0.5) * 360 + 'deg';
+            const duration = Math.random() * 3 + 4;
+
+            heart.style.setProperty('--scale', scale);
+            heart.style.setProperty('--drift', drift);
+            heart.style.setProperty('--rotation', rotation);
+            heart.style.animationDuration = duration + 's';
+
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), duration * 1000);
+        }
+
+        // Spawn fewer hearts on mobile to keep performance smooth
+        const heartInterval = window.innerWidth <= 480 ? 700 : 400;
+        setInterval(spawnBackgroundHeart, heartInterval);
+
+        // Click / Burst Sparkle Particle FX
+        function createHeartBurst(x, y) {
+            const burstCount = window.innerWidth <= 480 ? 8 : 15;
+            for (let i = 0; i < burstCount; i++) {
+                const p = document.createElement('div');
+                p.classList.add('heart-burst-particle');
+                p.innerHTML = ['❤️', '💖', '💝', '💕', '💘', '🌸'][Math.floor(Math.random() * 6)];
+                p.style.left = `${x}px`;
+                p.style.top = `${y}px`;
+
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 120 + 60;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+
+                p.style.setProperty('--tx', `${tx}px`);
+                p.style.setProperty('--ty', `${ty}px`);
+                p.style.setProperty('--rot', `${(Math.random() - 0.5) * 360}deg`);
+
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 900);
+            }
+        }
+
+        // Celebration Confetti Particle Generation
+        function startConfetti() {
+            const colors = ['#ffd700', '#ff6b6b', '#4facfe', '#00f2fe', '#fda085', '#f6d365', '#a1c4fd', '#e2d1c3'];
+            const confettiCount = window.innerWidth <= 480 ? 30 : 60;
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const p = document.createElement('div');
+                    p.classList.add('confetti-particle');
+                    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    p.style.left = Math.random() * 100 + 'vw';
+                    p.style.width = Math.random() * 8 + 6 + 'px';
+                    p.style.height = Math.random() * 15 + 8 + 'px';
+                    p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+
+                    const drift = (Math.random() - 0.5) * 300 + 'px';
+                    p.style.setProperty('--drift', drift);
+
+                    const duration = Math.random() * 2 + 2;
+                    p.style.animationDuration = duration + 's';
+
+                    document.body.appendChild(p);
+                    setTimeout(() => p.remove(), duration * 1000);
+                }, i * 30);
+            }
+        }
+    </script>
+</body>
+</html>
